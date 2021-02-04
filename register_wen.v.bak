@@ -1,0 +1,22 @@
+module register_wen #(parameter W=8) (clock, rst, enable, reg_in, reg_out);
+
+	input clock, rst, enable;
+	input [W-1:0] reg_in;
+	output reg [W-1:0] reg_out;
+
+	always @(posedge clock)
+	begin
+		if (~rst) 
+		begin
+			if (enable) 
+			begin
+				reg_out <= reg_in;
+			end 
+		end
+		else 
+		begin
+			reg_out <= 0;
+		end
+	end
+
+endmodule

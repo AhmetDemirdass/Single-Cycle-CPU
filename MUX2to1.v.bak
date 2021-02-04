@@ -1,0 +1,16 @@
+module MUX2to1 #(parameter W = 2)(
+input wire [W-1:0] mux_in_one,
+input select,
+input wire [W-1:0] mux_in_two,
+output reg [W-1:0] mux_out
+);
+
+always@(mux_in_one or mux_in_two or select)
+begin
+	if(select)
+		mux_out[W-1:0] = mux_in_one[W-1:0];
+	else
+		mux_out[W-1:0] = mux_in_two[W-1:0];
+end
+
+endmodule

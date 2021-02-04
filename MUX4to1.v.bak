@@ -1,0 +1,21 @@
+module MUX4to1 #(parameter W = 2)(
+input [1:0] select,
+input wire [W-1:0] mux_in_one,
+input wire [W-1:0] mux_in_two,
+input wire [W-1:0] mux_in_three,
+input wire [W-1:0] mux_in_four,
+output reg [W-1:0] mux_out
+);
+
+always@(mux_in_one or mux_in_two or select or mux_in_four or mux_in_three)
+begin
+	case (select)
+
+	2'b11: mux_out[W-1:0] = mux_in_one[W-1:0];
+	2'b10: mux_out[W-1:0] = mux_in_two[W-1:0];
+	2'b01: mux_out[W-1:0] = mux_in_three[W-1:0];
+	2'b00: mux_out[W-1:0] = mux_in_four[W-1:0];
+	endcase
+end
+
+endmodule

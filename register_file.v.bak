@@ -1,0 +1,32 @@
+module register_file #(parameter W=4)(
+input clock,
+input rst,
+input [1:0] A3,
+input [1:0] A2,
+input [1:0] A1,
+input [W-1:0] WD3,
+input enable,
+output [W-1:0] RD1,
+output [W-1:0] RD2
+); 
+
+wire [3:0] decoder_out;
+wire wen_1,wen_2,wen_3,wen_4;
+wire register1,register2,register3,register4;
+
+assign wen_1 = decoder_out[0] & enable;
+assign wen_2 = decoder_out[1] & enable;
+assign wen_3 = decoder_out[2] & enable;
+assign wen_4 = decoder_out[0] & enable;
+		 
+MUX4to1 mux1(A1,register1,register2,register3,register4,RD1);
+MUX4to1 mux2(A2,register1,register2,register3,register4,RD2);
+
+register_wen  #(W) register_one(clock,rst,wen_1,WD3,register1);
+register_wen  #(W) register_two(clock,rst,wen_2,WD3,register2);
+register_wen  #(W) register_three(clock,rst,wen_3,WD3,register3);
+register_wen  #(W) register_four(clock,rst,wen_4,WD3,register4);
+
+DECODER dec(A3,decoder_out);
+
+endmodule
